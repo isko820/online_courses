@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}
+{% if subject %}
+Курсы {{ subject.title }}
+{% else %}
+Курсы
+{% endif %}
+{% endblock %}
+{% block content %}
+<h1>
+{% if subject %}
+Курсы{{ subject.title }}
+{% else %}
+<!--Все курсы-->
+{% endif %}
+</h1>
+<div class="shared-components-Directions-directions-module__direction--9OvcK" data-show-count="">
+<h2 style="text-align: center; color: #000000; font-size: 100px;font-style:menu; font-weight:100">Курсы по программированию
+</h2>
+
+
+
+
+<ul id="menu" style="width: 1000px; display: flex; justify-content: space-between; list-style-type: none;">
+<!--<li {% if not subject %}class="selected"{% endif %}>-->
+<!--<a href="{% url 'course_list' %}">Все</a>-->
+<!--</li>-->
+{% for s in subjects %}
+<li {% if subject == s %}class="selected"{% endif %} style="padding:25px 60px; border: 1px solid #228B22;color: #000000">
+<a href="{% url 'course_list_subject' s.slug %}" style="color: #000000;text-decoration: none; color: #8B008B">
+{{ s.title }}
+<!--    <br><span>Курсы {{ s.total_courses }} </span>-->
+</a>
+</li>
+{% endfor %}
+</ul>
+</div>
+<div class="module">
+{% for course in courses %}
+{% with subject=course.subject %}
+<h3><a href="{% url 'course_detail' course.slug %}">
+{{ course.title }}</a></h3>
+<p>
+<a href="{% url 'course_list_subject' subject.slug %}">
+{{ subject }}</a>.
+Этапов: {{ course.total_modules }}.
+Преподаватель: {{ course.owner.get_full_name }}
+</p>
+{% endwith %}
+{% endfor %}
+</div>
+{% endblock %}
